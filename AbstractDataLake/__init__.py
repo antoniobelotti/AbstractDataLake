@@ -45,3 +45,11 @@ class AbstractDataLake(ABC):
     def ls(self, path: str) -> [str]:
         """ Returns a list of the content of the specified directory """
         pass
+
+    @abstractmethod
+    def mvdir(self, src_path: str, dest_path: str):
+        pass
+
+    @abstractmethod
+    def mvfile(self, src_path: str, dest_path: str):
+        pass
