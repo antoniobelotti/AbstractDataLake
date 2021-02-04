@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-""" Abstract JSONDataLakeConnection interface
+""" Abstract Data Lake class
 
-This module specifies the interface of a generic json-only data lake connector.
+This module specifies the interface of a generic data lake connection.
 """
-
+import json
 from abc import ABC, abstractmethod
 
 
-class JSONDataLakeConnection(ABC):
+class AbstractDataLake(ABC):
 
     @abstractmethod
     def _connect(self):
@@ -24,14 +24,17 @@ class JSONDataLakeConnection(ABC):
         pass
 
     @abstractmethod
-    def store(self, serialized_json_content: str, path_filename: str, overwrite: bool):
+    def store(self, serialized_content: str, path_filename: str, overwrite: bool):
         """ Upload a file """
         pass
 
     @abstractmethod
-    def retrieve(self, path_filename: str) -> dict:
+    def retrieve(self, path_filename: str) -> [bytes]:
         """ Retrieve a file """
         pass
+
+    def retrieve_json(self, path_filename: str) -> dict:
+        return json.loads(self.retrieve(path_filename))
 
     @abstractmethod
     def rm(self, path_filename: str):
@@ -39,6 +42,6 @@ class JSONDataLakeConnection(ABC):
         pass
 
     @abstractmethod
-    def ls(self, path:str) -> [str]:
+    def ls(self, path: str) -> [str]:
         """ Returns a list of the content of the specified directory """
         pass
